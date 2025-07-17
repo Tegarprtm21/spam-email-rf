@@ -29,6 +29,12 @@ vectorizer = joblib.load('tfidf_vectorizer.pkl')
 stemmer = PorterStemmer()
 
 def preprocess(text):
+    # Tambahan safety jika punkt belum tersedia
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
+
     tokens = word_tokenize(text)
     stemmed = [stemmer.stem(word) for word in tokens]
     return ' '.join(stemmed)
